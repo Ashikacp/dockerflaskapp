@@ -1,0 +1,66 @@
+
+# commands
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker build -t welcome-app .    #or docker build -t ashikacp/welcome-app . 
+
+# run the repo
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker run -p 5001:5001 welcome-app
+
+
+open another terminal check docker.ps while runnig docker file
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker ps
+o/p=
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+23a79918caf3   welcome-app   "/bin/sh -c 'python …"   37 seconds ago   Up 36 seconds   0.0.0.0:5001->5001/tcp   cool_fermat    
+# stop 
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker stop 23a79918caf3
+o/p=23a79918caf3
+
+
+## push a docker IMAGE to docker HUB
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker login
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker images
+o/p=
+REPOSITORY                 TAG       IMAGE ID       CREATED             SIZE
+welcome-app                latest    904952b805e1   About an hour ago   64.6MB
+docker/welcome-to-docker   latest    648f93a1ba7d   10 months ago       19MB
+
+# change the dockerimage name (renaming) if you want to push the docker image to docker hub you have to add username.  username/imagename
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker tag welcome-app ashikacp/welcome-app 
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker images                              
+REPOSITORY                 TAG       IMAGE ID       CREATED             SIZE
+ashikacp/welcome-app       latest    904952b805e1   About an hour ago   64.6MB
+welcome-app                latest    904952b805e1   About an hour ago   64.6MB
+docker/welcome-to-docker   latest    648f93a1ba7d   10 months ago       19MB
+
+# delete the older image
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker image rm -f welcome-app:latest
+o/p=Untagged: welcome-app:latest
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker images                          
+o/p=
+REPOSITORY                 TAG       IMAGE ID       CREATED         SIZE
+ashikacp/welcome-app       latest    904952b805e1   2 hours ago     64.6MB
+docker/welcome-to-docker   latest    648f93a1ba7d   10 months ago   19MB
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker push ashikacp/welcome-app:latest
+
+ docker image has beeen pushed ti docker hub. check the repository of docker hub to view  the image.you can pull and check it.
+
+
+ # pull docker image
+first deleted the  docker image rm -f ashikacp/welcome-app:latest then pull 
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker pull ashikacp/welcome-app:latest
+
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED         SIZE
+ashikacp/welcome-app       latest    904952b805e1   2 hours ago     64.6MB
+docker/welcome-to-docker   latest    648f93a1ba7d   10 months ago   19MB
+
+# run the pulled repo/docker image
+(base) ashikacherikkaparambath@Ashikas-MacBook-Pro dockerProjects % docker run -d -p 5001:5001 ashikacp/welcome-app:latest
+o/p= 0aaec1b0c2c3ee7e1cd0910e67441cf0db2e969b74245f75056c187ffcdda99e
